@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Trash2, Eye, EyeOff, Upload, X } from 'lucide-react';
+import { Plus, Trash2, Eye, EyeOff, Upload, X, AlignLeft } from 'lucide-react';
 import { getPortfolioItems, createPortfolioItem, updatePortfolioItem, deletePortfolioItem, uploadPortfolioImage } from '../../lib/api';
 
 const PortfolioManager: React.FC = () => {
@@ -126,6 +126,9 @@ const PortfolioManager: React.FC = () => {
               <div className="p-6">
                 <span className="text-[#C5A059] text-[8px] font-black uppercase tracking-[0.3em] mb-2 block">{item.category}</span>
                 <h4 className="text-white font-serif text-xl tracking-wide">{item.title}</h4>
+                {item.description && (
+                  <p className="text-white/30 text-[10px] mt-2 line-clamp-2 italic leading-relaxed">{item.description}</p>
+                )}
               </div>
             </div>
           ))}
@@ -137,7 +140,7 @@ const PortfolioManager: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-panel w-full max-w-2xl rounded-[3rem] p-10 md:p-14 relative border-[#C5A059]/20 bg-[#0a0a0b]"
+            className="glass-panel w-full max-w-2xl rounded-[3rem] p-10 md:p-14 relative border-[#C5A059]/20 bg-[#0a0a0b] max-h-[90vh] overflow-y-auto custom-scrollbar"
           >
             <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 text-white/20 hover:text-white"><X /></button>
             <h3 className="text-3xl font-serif text-white mb-8">New Gallery Item</h3>
@@ -146,7 +149,7 @@ const PortfolioManager: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[9px] uppercase font-bold tracking-[0.2em] text-white/30 ml-2">Showcase Title</label>
-                  <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#C5A059]/50" placeholder="e.g. Royal Rajput Wedding" />
+                  <input required value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#C5A059]/50 transition-all" placeholder="e.g. Royal Rajput Wedding" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[9px] uppercase font-bold tracking-[0.2em] text-white/30 ml-2">Category</label>
@@ -161,6 +164,20 @@ const PortfolioManager: React.FC = () => {
                       <option className="bg-[#0a0a0b] text-white" value="Parties">Parties</option>
                     </select>
                   </div>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[9px] uppercase font-bold tracking-[0.2em] text-white/30 ml-2">Artistic Description</label>
+                <div className="relative">
+                  <textarea 
+                    rows={3}
+                    value={formData.description} 
+                    onChange={e => setFormData({...formData, description: e.target.value})} 
+                    className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#C5A059]/50 transition-all resize-none" 
+                    placeholder="Describe the royal essence of this event..."
+                  />
+                  <AlignLeft className="absolute right-6 top-4 text-white/10" size={16} />
                 </div>
               </div>
 
