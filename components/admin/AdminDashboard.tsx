@@ -22,9 +22,9 @@ const AdminDashboard: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'Enquiries', path: '/admin/enquiries', icon: Mail },
     { name: 'Portfolio', path: '/admin/portfolio', icon: ImageIcon },
     { name: 'Reviews', path: '/admin/reviews', icon: MessageSquare },
+    { name: 'Enquiries', path: '/admin/enquiries', icon: Mail },
   ];
 
   const currentTitle = navLinks.find(link => location.pathname === link.path)?.name || 'Dashboard';

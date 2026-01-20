@@ -66,7 +66,6 @@ export const submitReview = async (review: {
   rating: number;
   message: string;
 }) => {
-  // We explicitly set is_approved to true so it works with any legacy schema columns
   const { data, error } = await supabase
     .from('reviews')
     .insert([{ ...review, is_approved: true }]);
@@ -80,9 +79,9 @@ export const deleteReview = async (id: string) => {
 };
 
 /**
- * ENQUIRIES API
+ * ENQUIRIES API - LEAD MANAGEMENT
  */
-// Added to fix EnquiriesManager.tsx errors and enable lead management
+// Fix: Added getEnquiries and deleteEnquiry to resolve import errors in EnquiriesManager.tsx
 export const getEnquiries = async () => {
   const { data, error } = await supabase
     .from('enquiries')
@@ -92,7 +91,12 @@ export const getEnquiries = async () => {
   return data;
 };
 
-// Added to allow persisting enquiries from public forms for admin tracking
+export const deleteEnquiry = async (id: string) => {
+  const { error } = await supabase.from('enquiries').delete().eq('id', id);
+  if (error) throw error;
+};
+
+// Added submitEnquiry to allow saving contact/modal form leads to the database
 export const submitEnquiry = async (enquiry: {
   name: string;
   phone: string;
@@ -101,17 +105,9 @@ export const submitEnquiry = async (enquiry: {
   service?: string;
   message: string;
 }) => {
-  const { data, error } = await supabase
-    .from('enquiries')
-    .insert([enquiry]);
+  const { data, error } = await supabase.from('enquiries').insert([enquiry]).select();
   if (error) throw error;
   return data;
-};
-
-// Added to fix EnquiriesManager.tsx errors
-export const deleteEnquiry = async (id: string) => {
-  const { error } = await supabase.from('enquiries').delete().eq('id', id);
-  if (error) throw error;
 };
 
 /**
