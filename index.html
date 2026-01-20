@@ -83,19 +83,10 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* 
-           Standard Anchor Offset Fix:
-           We set scroll-margin-top to 0 because the luxury sections already feature 
-           significant internal padding (py-24 or py-32). By scrolling to the section 
-           boundary, the fixed navbar floats elegantly above this padding, creating 
-           a perfect visual balance and eliminating excessive gaps between the 
-           header and the section titles.
-        */
         #home, #experience, #services, #portfolio, #reviews, #contact {
             scroll-margin-top: 0;
         }
 
-        /* Subtle shimmer animation for gold highlights */
         @keyframes subtlePulse {
             0%, 100% { opacity: 0.1; }
             50% { opacity: 0.25; }
@@ -105,7 +96,6 @@
             animation: subtlePulse 10s ease-in-out infinite;
         }
 
-        /* Custom scrollbar for reviews panel */
         .custom-scrollbar::-webkit-scrollbar {
             width: 4px;
         }
@@ -120,14 +110,14 @@
 <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@19.0.0",
-    "react-dom": "https://esm.sh/react-dom@19.0.0",
-    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react": "https://esm.sh/react@18.3.1",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
     "framer-motion": "https://esm.sh/framer-motion@11.11.17?external=react,react-dom",
     "lucide-react": "https://esm.sh/lucide-react@0.473.0?external=react",
     "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+    "react/": "https://esm.sh/react@18.3.1/",
+    "react-dom/": "https://esm.sh/react-dom@18.3.1/"
   }
 }
 </script>
