@@ -1,21 +1,26 @@
 
--- 1. Remove old approval-based policies
-DROP POLICY IF EXISTS "Public can view approved reviews" ON reviews;
+-- 1. Create the 'portfolio' bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('portfolio', 'portfolio', true)
+ON CONFLICT (id) DO NOTHING;
 
--- 2. Create instant visibility policy
-CREATE POLICY "Public can view all reviews" 
-ON reviews FOR SELECT 
-USING (true);
+-- 2. Enable RLS on storage.objects (standard practice)
+ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
 
--- 3. Ensure public can still only insert (cannot update or delete)
--- (Assuming "Public can insert reviews" already exists from previous setup)
--- CREATE POLICY "Public can insert reviews" ON reviews FOR INSERT WITH CHECK (true);
+-- 3. Public: Allow anyone to view images in the portfolio bucket
+CREATE POLICY "Public Read Access"
+ON storage.objects FOR SELECT
+TO public
+USING (bucket_id = 'portfolio');
 
--- 4. Admin Management (Delete access inherited via 'authenticated' role)
--- This policy ensures only users logged into Supabase Auth (Admins) can modify/delete.
-DROP POLICY IF EXISTS "Admin has full access to reviews" ON reviews;
-CREATE POLICY "Admin has full access to reviews"
-ON reviews FOR ALL
+-- 4. Admin: Allow authenticated users to upload images
+CREATE POLICY "Admin Upload Access"
+ON storage.objects FOR INSERT
 TO authenticated
-USING (true)
-WITH CHECK (true);
+WITH CHECK (bucket_id = 'portfolio');
+
+-- 5. Admin: Allow authenticated users to delete images
+CREATE POLICY "Admin Delete Access"
+ON storage.objects FOR DELETE
+TO authenticated
+USING (bucket_id = 'portfolio');

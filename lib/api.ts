@@ -1,6 +1,8 @@
 
 import { supabase } from './supabase';
 
+const PORTFOLIO_BUCKET = 'portfolio';
+
 /**
  * PORTFOLIO API
  */
@@ -32,9 +34,15 @@ export const updatePortfolioItem = async (id: string, updates: any) => {
 
 export const deletePortfolioItem = async (id: string, imageUrl: string) => {
   if (imageUrl) {
-    const path = imageUrl.split('/').pop();
-    if (path) {
-      await supabase.storage.from('portfolio').remove([path]);
+    // Extract filename from the URL accurately
+    try {
+      const urlParts = imageUrl.split(`${PORTFOLIO_BUCKET}/`);
+      if (urlParts.length > 1) {
+        const path = urlParts[1].split('?')[0]; // Handle query params if any
+        await supabase.storage.from(PORTFOLIO_BUCKET).remove([path]);
+      }
+    } catch (e) {
+      console.warn("Could not delete associated image file:", e);
     }
   }
   const { error } = await supabase.from('portfolio_items').delete().eq('id', id);
@@ -42,7 +50,7 @@ export const deletePortfolioItem = async (id: string, imageUrl: string) => {
 };
 
 /**
- * REVIEWS API - UPDATED FOR INSTANT VISIBILITY
+ * REVIEWS API
  */
 export const getAllReviews = async () => {
   const { data, error } = await supabase
@@ -53,7 +61,6 @@ export const getAllReviews = async () => {
   return data;
 };
 
-// Repurposed to just return all reviews (no approval check)
 export const getApprovedReviews = async () => {
   return getAllReviews();
 };
@@ -66,19 +73,13 @@ export const submitReview = async (review: {
 }) => {
   const { data, error } = await supabase
     .from('reviews')
-    .insert([{ ...review, is_approved: true }]); // Auto-set to true for legacy DB compatibility
+    .insert([{ ...review, is_approved: true }]);
   if (error) throw error;
   return data;
 };
 
 export const deleteReview = async (id: string) => {
   const { error } = await supabase.from('reviews').delete().eq('id', id);
-  if (error) throw error;
-};
-
-// Legacy support (safe to keep but unused)
-export const approveReview = async (id: string) => {
-  const { error } = await supabase.from('reviews').update({ is_approved: true }).eq('id', id);
   if (error) throw error;
 };
 
@@ -115,19 +116,33 @@ export const deleteEnquiry = async (id: string) => {
 };
 
 /**
- * STORAGE API
+ * STORAGE API - FIXED FOR BUCKET CONSISTENCY
  */
 export const uploadPortfolioImage = async (file: File) => {
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Math.random().toString(36).substring(2)}.${fileExt}`;
-  const filePath = `${fileName}`;
+  // 1. Clean filename and add unique prefix
+  const timestamp = Date.now();
+  const cleanName = file.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
+  const filePath = `showcase_${timestamp}_${cleanName}`;
 
-  const { error: uploadError } = await supabase.storage
-    .from('portfolio')
-    .upload(filePath, file);
+  // 2. Perform upload
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from(PORTFOLIO_BUCKET)
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
 
-  if (uploadError) throw uploadError;
+  if (uploadError) {
+    if (uploadError.message.includes('Bucket not found')) {
+      throw new Error(`CRITICAL: Storage bucket "${PORTFOLIO_BUCKET}" does not exist. Please run the SQL migration.`);
+    }
+    throw uploadError;
+  }
 
-  const { data } = supabase.storage.from('portfolio').getPublicUrl(filePath);
-  return data.publicUrl;
+  // 3. Generate Public URL
+  const { data: { publicUrl } } = supabase.storage
+    .from(PORTFOLIO_BUCKET)
+    .getPublicUrl(filePath);
+
+  return publicUrl;
 };
