@@ -9,11 +9,19 @@ CREATE TABLE IF NOT EXISTS portfolio_items (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- RLS for Portfolio
 ALTER TABLE portfolio_items ENABLE ROW LEVEL SECURITY;
+
+-- Public can view ONLY active items
 CREATE POLICY "Public can view active portfolio items" 
 ON portfolio_items FOR SELECT 
 USING (is_active = true);
+
+-- Authenticated (Admin) can do everything
+CREATE POLICY "Admin has full access to portfolio"
+ON portfolio_items FOR ALL
+TO authenticated
+USING (true)
+WITH CHECK (true);
 
 -- 2. CLIENT REVIEWS
 CREATE TABLE IF NOT EXISTS reviews (
@@ -26,15 +34,24 @@ CREATE TABLE IF NOT EXISTS reviews (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- RLS for Reviews
 ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+
+-- Public can insert new reviews
 CREATE POLICY "Public can insert reviews" 
 ON reviews FOR INSERT 
 WITH CHECK (true);
 
+-- Public can view ONLY approved reviews
 CREATE POLICY "Public can view approved reviews" 
 ON reviews FOR SELECT 
 USING (is_approved = true);
+
+-- Admin has full control
+CREATE POLICY "Admin has full access to reviews"
+ON reviews FOR ALL
+TO authenticated
+USING (true)
+WITH CHECK (true);
 
 -- 3. ENQUIRIES
 CREATE TABLE IF NOT EXISTS enquiries (
@@ -48,10 +65,21 @@ CREATE TABLE IF NOT EXISTS enquiries (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
--- RLS for Enquiries
 ALTER TABLE enquiries ENABLE ROW LEVEL SECURITY;
+
+-- Public can submit enquiries
 CREATE POLICY "Public can submit enquiries" 
 ON enquiries FOR INSERT 
 WITH CHECK (true);
 
--- Note: No SELECT policy for enquiries, ensuring public cannot read form submissions.
+-- Admin can see and delete enquiries (No public SELECT)
+CREATE POLICY "Admin has full access to enquiries"
+ON enquiries FOR ALL
+TO authenticated
+USING (true)
+WITH CHECK (true);
+
+-- 4. STORAGE BUCKET (Run this via Dashboard as SQL cannot create buckets)
+-- Ensure a bucket named 'portfolio' is created.
+-- Policy: Public READ access to 'portfolio' bucket.
+-- Policy: Authenticated ALL access to 'portfolio' bucket.

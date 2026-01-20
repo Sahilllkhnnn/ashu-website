@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { LanguageProvider } from './context/LanguageContext';
+import FloatingGoldParticles from './components/FloatingGoldParticles';
 import { AnimatePresence } from 'framer-motion';
 
+// Public Components
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,19 +13,17 @@ import Gallery from './components/Gallery';
 import Feedback from './components/Feedback';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import EnquiryModal from './components/EnquiryModal';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
-import FloatingGoldParticles from './components/FloatingGoldParticles';
-import { LanguageProvider } from './context/LanguageContext';
+import EnquiryModal from './components/EnquiryModal';
 
-const App: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState('');
+// Admin Components
+import AdminLogin from './components/admin/AdminLogin';
+import AdminDashboard from './components/admin/AdminDashboard';
+import ProtectedRoute from './components/admin/ProtectedRoute';
 
-  const openEnquiry = (serviceName: string = 'General Inquiry') => {
-    setSelectedService(serviceName);
-    setIsModalOpen(true);
-  };
+const PublicSite: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [selectedService, setSelectedService] = React.useState('');
 
   const handleNavigate = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -31,39 +33,63 @@ const App: React.FC = () => {
   };
 
   return (
+    <div className="relative min-h-screen selection:bg-[#C5A059] selection:text-black bg-[#050505] overflow-x-hidden">
+      <FloatingGoldParticles />
+      <div className="fixed inset-0 pointer-events-none z-50 vignette" />
+      <Navbar 
+        onSectionChange={handleNavigate} 
+        onEnquire={() => {
+          setSelectedService('');
+          setIsModalOpen(true);
+        }} 
+      />
+      <main className="relative z-20">
+        <Hero onEnquire={() => setIsModalOpen(true)} />
+        <About />
+        <Services onEnquire={(title) => { setSelectedService(title); setIsModalOpen(true); }} />
+        <Gallery onEnquire={() => setIsModalOpen(true)} />
+        <Feedback />
+        <Contact />
+      </main>
+      <Footer onNavigate={handleNavigate} />
+      <FloatingWhatsApp />
+      
+      <AnimatePresence>
+        {isModalOpen && (
+          <EnquiryModal 
+            isOpen={isModalOpen} 
+            onClose={() => setIsModalOpen(false)} 
+            initialService={selectedService} 
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
     <LanguageProvider>
-      <div className="relative min-h-screen selection:bg-[#C5A059] selection:text-black bg-[#050505] overflow-x-hidden">
-        {/* Cinematic Effects */}
-        <FloatingGoldParticles />
-        <div className="fixed inset-0 pointer-events-none z-50 vignette" />
-        
-        <Navbar 
-          onSectionChange={handleNavigate} 
-          onEnquire={() => handleNavigate('contact')} 
-        />
-        
-        <main className="relative z-20">
-          <Hero onEnquire={() => handleNavigate('contact')} />
-          <About />
-          <Services onEnquire={(title) => { setSelectedService(title); setIsModalOpen(true); }} />
-          <Gallery onEnquire={() => handleNavigate('contact')} />
-          <Feedback />
-          <Contact />
-        </main>
-
-        <Footer onNavigate={handleNavigate} />
-        <FloatingWhatsApp />
-
-        <AnimatePresence>
-          {isModalOpen && (
-            <EnquiryModal 
-              isOpen={isModalOpen} 
-              onClose={() => setIsModalOpen(false)} 
-              initialService={selectedService}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+      <Router>
+        <Routes>
+          {/* Public Route */}
+          <Route path="/" element={<PublicSite />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route 
+            path="/admin/*" 
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Fallback */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
     </LanguageProvider>
   );
 };
