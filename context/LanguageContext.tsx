@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 type Language = 'en' | 'hi';
@@ -18,14 +19,14 @@ const translations: Translations = {
   'nav.reviews': { en: 'Reviews', hi: 'समीक्षाएं' },
   'nav.enquire': { en: 'Enquire', hi: 'पूछताछ' },
   'nav.whatsapp': { en: 'WhatsApp Enquiry', hi: 'व्हाट्सएप पूछताछ' },
-  'nav.brand': { en: 'AZAD TENT HOUSE', hi: 'AZAD TENT HOUSE' },
+  'nav.brand': { en: 'AZAD TENT HOUSE', hi: 'आज़ाद टेंट हाउस' },
 
   // Hero
   'hero.tagline': { en: 'Royal Craftsmanship Since 1985', hi: '1985 से शाही शिल्प कौशल' },
   'hero.royal': { en: 'AZAD', hi: 'आज़ाद' },
   'hero.weddings': { en: 'TENT HOUSE', hi: 'टेंट हाउस' },
   'hero.tagline_services': { en: 'Catering • Décor • Grand Celebrations', hi: 'केटरिंग • सजावट • भव्य समारोह' },
-  'hero.desc': { en: 'Cinematic Production & Grand Decor For Elite Celebrations.', hi: 'विशिष्ट समारोहों के लिए सिनेमाई उत्पादन और भव्य सजावट।' },
+  'hero.desc': { en: 'The premier destination for luxury wedding tent services and royal mandap decoration in Chandia, Umaria.', hi: 'चंदिया, उमरिया में लक्जरी वेडिंग टेंट सेवाओं और शाही मंडप सजावट के लिए प्रमुख स्थान।' },
   'hero.cta': { en: 'Start Royal Enquiry', hi: 'शाही पूछताछ शुरू करें' },
   'hero.direct': { en: 'Private Consultation', hi: 'निजी परामर्श' },
   'hero.heritage': { en: 'Heritage Built Since 1985', hi: '1985 से संजोई गई विरासत' },
@@ -37,7 +38,7 @@ const translations: Translations = {
   'about.legacy': { en: 'The Heritage', hi: 'विरासत' },
   'about.title_era': { en: 'An Era of', hi: 'एक नया युग' },
   'about.title_craft': { en: 'Royal Craft', hi: 'शाही शिल्प का' },
-  'about.desc': { en: 'Based in the heart of Chandia, Azad Tent House has spent decades perfecting the orchestration of elite celebrations. Our legacy, which began in 1985, is built on a foundation of trust, majestic design, and an unwavering commitment to grand storytelling.', hi: 'चंदिया के केंद्र में स्थित, AZAD TENT HOUSE ने विशिष्ट समारोहों के आयोजन को पूर्ण करने में दशकों बिताए हैं। हमारी विरासत, जो 1985 में शुरू हुई थी, विश्वास, राजसी डिजाइन और भव्य कहानी कहने की अटूट प्रतिबद्धता पर बनी है।' },
+  'about.desc': { en: 'Based in the heart of Chandia, Azad Tent House has spent decades perfecting the orchestration of elite celebrations. Our legacy, which began in 1985, is built on a foundation of trust, majestic design, and an unwavering commitment to grand storytelling in the Umaria district.', hi: 'चंदिया के केंद्र में स्थित, AZAD TENT HOUSE ने विशिष्ट समारोहों के आयोजन को पूर्ण करने में दशकों बिताए हैं। हमारी विरासत, जो 1985 में शुरू हुई थी, उमरिया जिले में विश्वास, राजसी डिजाइन और भव्य कहानी कहने की अटूट प्रतिबद्धता पर बनी है।' },
   'about.stats_events': { en: 'Royal Events', hi: 'शाही आयोजन' },
   'about.stats_rank': { en: 'Top Ranked', hi: 'शीर्ष स्थान' },
   'about.stats_serving': { en: 'Serving All', hi: 'संपूर्ण सेवा' },
@@ -49,18 +50,18 @@ const translations: Translations = {
   'services.title_curated': { en: 'Curated', hi: 'क्यूरेटेड' },
   'services.title_masterpieces': { en: 'Masterpieces', hi: 'उत्कृष्ट कृतियाँ' },
   'services.cta': { en: 'Request Private Enquiry', hi: 'निजी पूछताछ का अनुरोध करें' },
-  'services.s1_title': { en: 'Grand Tents & Mandaps', hi: 'भव्य टेंट और मंडप' },
-  'services.s1_desc': { en: 'Majestic structural designs that redefine the standards of outdoor luxury.', hi: 'राजसी संरचनात्मक डिजाइन जो बाहरी विलासिता के मानकों को फिर से परिभाषित करते हैं।' },
-  'services.s2_title': { en: 'Royal Stage Design', hi: 'शाही स्टेज डिजाइन' },
-  'services.s2_desc': { en: 'Cinematic backdrops designed to place you at the center of the world.', hi: 'सिनेमाई पृष्ठभूमि आपको दुनिया के केंद्र में रखने के लिए डिज़ाइन की गई है।' },
-  'services.s3_title': { en: 'Floral Installations', hi: 'पुष्प सजावट' },
-  'services.s3_desc': { en: 'Exotic blooms meticulously arranged into grand pieces of living art.', hi: 'विदेशी फूलों को भव्य जीवित कला के टुकड़ों में सावधानीपूर्वक व्यवस्थित किया गया है।' },
-  'services.s4_title': { en: 'Wedding Lighting', hi: 'वेडिंग लाइटिंग' },
-  'services.s4_desc': { en: 'Volumetric glows and architectural systems to set the cinematic mood.', hi: 'सिनेमाई मूड सेट करने के लिए वॉल्यूमेट्रिक चमक और वास्तुशिल्प प्रणाली।' },
+  'services.s1_title': { en: 'Wedding Tent House', hi: 'वेडिंग टेंट हाउस' },
+  'services.s1_desc': { en: 'Architectural grandeur meets outdoor luxury. Majestic structures that redefine celebrations.', hi: 'संरचनात्मक भव्यता बाहरी विलासिता से मिलती है। राजसी संरचनाएं जो समारोहों को फिर से परिभाषित करती हैं।' },
+  'services.s2_title': { en: 'Royal Mandap Decoration', hi: 'शाही मंडप सजावट' },
+  'services.s2_desc': { en: 'The sacred center of your union, meticulously crafted with gold accents and premium fabrics.', hi: 'आपके मिलन का पवित्र केंद्र, सोने के लहजे और प्रीमियम कपड़ों के साथ सावधानीपूर्वक तैयार किया गया।' },
+  'services.s3_title': { en: 'Luxury Stage Design', hi: 'लक्जरी स्टेज डिजाइन' },
+  'services.s3_desc': { en: 'Cinematic focal points blending modern lighting with grand geometry to frame your moments.', hi: 'आपके पलों को संजोने के लिए आधुनिक लाइटिंग और भव्य ज्यामिति का संगम।' },
+  'services.s4_title': { en: 'Floral Installations', hi: 'पुष्प सजावट' },
+  'services.s4_desc': { en: 'Exotic botanical artistry featuring hand-selected blooms and majestic living art.', hi: 'विदेशी वनस्पति कला जिसमें हाथ से चुने गए फूल और राजसी सजीव कला शामिल है।' },
   'services.s5_title': { en: 'Seating & Furniture', hi: 'सिटिंग और फर्नीचर' },
-  'services.s5_desc': { en: 'Luxury lounges and royal seating arrangements for elite comfort.', hi: 'विशिष्ट आराम के लिए लक्जरी लाउंज और शाही बैठने की व्यवस्था।' },
-  'services.s6_title': { en: 'Complete Production', hi: 'पूर्ण उत्पादन' },
-  'services.s6_desc': { en: 'Total orchestration of corporate galas and private high-end celebrations.', hi: 'कॉर्पोरेट उत्सवों और निजी हाई-एंड समारोहों का संपूर्ण प्रबंधन।' },
+  'services.s5_desc': { en: 'Luxury lounges and royal seating arrangements for elite comfort and style.', hi: 'विशिष्ट आराम और शैली के लिए लक्जरी लाउंज और शाही बैठने की व्यवस्था।' },
+  'services.s6_title': { en: 'Corporate & Private Events', hi: 'कॉर्पोरेट और निजी आयोजन' },
+  'services.s6_desc': { en: 'Sophisticated orchestration for townhalls, galas, and intimate celebrations tailored for the elite.', hi: 'टाउनहॉल, गाला और निजी समारोहों के लिए परिष्कृत प्रबंधन जो विशिष्ट लोगों के लिए तैयार किया गया है।' },
 
   // Gallery
   'gallery.tag': { en: 'Portfolio', hi: 'पोर्टफोलियो' },
