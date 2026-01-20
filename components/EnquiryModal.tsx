@@ -23,30 +23,46 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose, initialSer
     note: ''
   });
 
+  // Updated to async for Supabase lead persistence
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
+      // Persist lead to database for Admin tracking
       await submitEnquiry({
         name: formData.name,
         phone: formData.phone,
-        city: formData.city,
+        service: formData.service,
         event_date: formData.date,
-        message: formData.note,
-        service: formData.service
+        city: formData.city,
+        message: formData.note || 'No additional notes.'
       });
-
-      const whatsappNumber = "+919926543692";
-      const message = `Hello Azad Tent House 👋\nName: ${formData.name}\nPhone: ${formData.phone}\nService: ${formData.service}\nEvent Date: ${formData.date}\nLocation: ${formData.city}\nMessage: ${formData.note}`;
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-      onClose();
-    } catch (error) {
-      console.error('Error saving enquiry:', error);
-      onClose();
-    } finally {
-      setIsSubmitting(false);
+    } catch (dbErr) {
+      console.warn("Lead persistence failed, but proceeding to WhatsApp handshake:", dbErr);
     }
+
+    const whatsappNumber = "919926543692";
+    const message = `Hello Azad Tent House 👑
+
+Name: ${formData.name}
+WhatsApp: ${formData.phone}
+Service: ${formData.service}
+Event Date: ${formData.date}
+Location: ${formData.city}
+
+Note:
+${formData.note || 'No additional notes.'}
+
+Please contact me.`;
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Direct WhatsApp Handshake
+    window.open(whatsappUrl, '_blank');
+    
+    setIsSubmitting(false);
+    onClose();
   };
 
   return (
@@ -110,9 +126,9 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose, initialSer
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-6 bg-[#d4af37] text-black font-black uppercase tracking-[0.6em] text-[11px] rounded-3xl transition-all hover:bg-white"
+              className="w-full py-6 bg-[#d4af37] text-black font-black uppercase tracking-[0.6em] text-[11px] rounded-3xl transition-all hover:bg-white flex items-center justify-center"
             >
-              {isSubmitting ? 'Sending...' : t('modal.cta')} <Send size={16} className="ml-5" />
+              {isSubmitting ? 'Opening WhatsApp...' : t('modal.cta')} <Send size={16} className="ml-5" />
             </button>
           </form>
         </div>

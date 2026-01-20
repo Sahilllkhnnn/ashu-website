@@ -82,6 +82,7 @@ export const deleteReview = async (id: string) => {
 /**
  * ENQUIRIES API
  */
+// Added to fix EnquiriesManager.tsx errors and enable lead management
 export const getEnquiries = async () => {
   const { data, error } = await supabase
     .from('enquiries')
@@ -91,19 +92,23 @@ export const getEnquiries = async () => {
   return data;
 };
 
+// Added to allow persisting enquiries from public forms for admin tracking
 export const submitEnquiry = async (enquiry: {
   name: string;
   phone: string;
-  city: string;
   event_date: string;
-  message: string;
+  city: string;
   service?: string;
+  message: string;
 }) => {
-  const { data, error } = await supabase.from('enquiries').insert([enquiry]);
+  const { data, error } = await supabase
+    .from('enquiries')
+    .insert([enquiry]);
   if (error) throw error;
   return data;
 };
 
+// Added to fix EnquiriesManager.tsx errors
 export const deleteEnquiry = async (id: string) => {
   const { error } = await supabase.from('enquiries').delete().eq('id', id);
   if (error) throw error;

@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LayoutDashboard, Image as ImageIcon, MessageSquare, Mail, LogOut, ExternalLink, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Image as ImageIcon, MessageSquare, LogOut, ExternalLink, Menu, X, Mail } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
 // Admin Sub-pages
@@ -21,9 +22,9 @@ const AdminDashboard: React.FC = () => {
   };
 
   const navLinks = [
+    { name: 'Enquiries', path: '/admin/enquiries', icon: Mail },
     { name: 'Portfolio', path: '/admin/portfolio', icon: ImageIcon },
     { name: 'Reviews', path: '/admin/reviews', icon: MessageSquare },
-    { name: 'Enquiries', path: '/admin/enquiries', icon: Mail },
   ];
 
   const currentTitle = navLinks.find(link => location.pathname === link.path)?.name || 'Dashboard';

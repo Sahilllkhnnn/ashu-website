@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Instagram, Send, MessageCircle, Clock } from 'lucide-react';
@@ -9,36 +10,45 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', phone: '', date: '', city: '', msg: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Updated to async to support Supabase lead persistence
   const handleEnquiry = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
+      // Persist to Database for Admin Orchestration
       await submitEnquiry({
         name: formData.name,
         phone: formData.phone,
         event_date: formData.date,
         city: formData.city,
-        message: formData.msg,
-        service: 'Direct Enquiry'
+        message: formData.msg || 'Interested in royal event services.'
       });
+    } catch (err) {
+      console.warn("DB Storage failed, but continuing to WhatsApp handshake:", err);
+    }
 
-      const whatsappNumber = "+919926543692";
-      const message = `Hello Azad Tent House 👋
+    const whatsappNumber = "919926543692";
+    const message = `Hello Azad Tent House 👑
+
 Name: ${formData.name}
-Phone: ${formData.phone}
+WhatsApp: ${formData.phone}
 Event Date: ${formData.date}
 Location: ${formData.city}
-Message: ${formData.msg}`;
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
-      setFormData({ name: '', phone: '', date: '', city: '', msg: '' });
-    } catch (error) {
-      console.error('Error saving contact enquiry:', error);
-      const whatsappNumber = "+919926543692";
-      window.open(`https://wa.me/${whatsappNumber}?text=Direct Enquiry from website`, '_blank');
-    } finally {
-      setIsSubmitting(false);
-    }
+
+Requirement:
+${formData.msg || 'Interested in royal event services.'}
+
+Please contact me.`;
+
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Redirecting to WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    // Cleanup
+    setIsSubmitting(false);
+    setFormData({ name: '', phone: '', date: '', city: '', msg: '' });
   };
 
   const riseVariants = {
@@ -142,7 +152,7 @@ Message: ${formData.msg}`;
                 disabled={isSubmitting}
                 className={`w-full py-5 bg-[#d4af37] text-black font-black uppercase tracking-[0.5em] text-[10px] md:text-[11px] rounded-2xl shadow-3xl transition-all duration-700 flex items-center justify-center min-h-[55px] hover:bg-white active:scale-[0.98] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {isSubmitting ? t('modal.tag') : t('contact.cta')} <Send size={15} className="ml-5" />
+                {isSubmitting ? 'Processing...' : t('contact.cta')} <Send size={15} className="ml-5" />
               </button>
             </motion.form>
           </div>
