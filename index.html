@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azad Tent House | Royal Wedding & Events</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obsidian: #050505;
+            --charcoal: #0a0a0b;
+            --antique-gold: #C5A059;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--obsidian);
+            color: #ffffff;
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        img:not([src]), img[src=""] { opacity: 0 !important; }
+        img[alt] { text-indent: -9999px; }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--obsidian);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.3);
+            border-radius: 10px;
+        }
+        
+        .text-3d-gold {
+            background: linear-gradient(
+                to bottom,
+                #fff9f0 0%,
+                #f1d39d 20%,
+                #C5A059 45%,
+                #8a6d3b 70%,
+                #C5A059 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 1px rgba(197, 160, 89, 0.4));
+        }
+
+        .obsidian-gradient {
+            background: radial-gradient(circle at center, var(--charcoal) 0%, var(--obsidian) 100%);
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(197, 160, 89, 0.1);
+        }
+        
+        .vignette {
+            box-shadow: inset 0 0 25vw rgba(0,0,0,1);
+        }
+
+        .matte-gold-highlight {
+            color: var(--antique-gold);
+            text-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+        }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 
+           Standard Anchor Offset Fix:
+           We set scroll-margin-top to 0 because the luxury sections already feature 
+           significant internal padding (py-24 or py-32). By scrolling to the section 
+           boundary, the fixed navbar floats elegantly above this padding, creating 
+           a perfect visual balance and eliminating excessive gaps between the 
+           header and the section titles.
+        */
+        #home, #experience, #services, #portfolio, #reviews, #contact {
+            scroll-margin-top: 0;
+        }
+
+        /* Subtle shimmer animation for gold highlights */
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.25; }
+        }
+        
+        .shimmer-layer {
+            animation: subtlePulse 10s ease-in-out infinite;
+        }
+
+        /* Custom scrollbar for reviews panel */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.15);
+            border-radius: 10px;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "framer-motion": "https://esm.sh/framer-motion@11.11.17?external=react,react-dom",
+    "lucide-react": "https://esm.sh/lucide-react@0.473.0?external=react",
+    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2.48.1",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>
