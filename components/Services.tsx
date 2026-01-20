@@ -10,9 +10,14 @@ interface ServiceItem {
   img: string;
 }
 
+const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=1200";
+
 const ServiceCard: React.FC<{ service: ServiceItem; index: number; onEnquire: (title: string) => void }> = ({ service, index, onEnquire }) => {
   const { t } = useLanguage();
   
+  // Robust image handling for luxury continuity
+  const [imageSrc, setImageSrc] = React.useState(service.img || FALLBACK_IMAGE);
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 24 }}
@@ -23,7 +28,12 @@ const ServiceCard: React.FC<{ service: ServiceItem; index: number; onEnquire: (t
       className="group relative h-[500px] md:h-[600px] rounded-[2.5rem] md:rounded-[4rem] overflow-hidden glass-panel flex flex-col justify-end p-10 md:p-14 border-white/10 shadow-lg hover:shadow-[0_20px_50px_rgba(212,175,55,0.1)] transition-shadow duration-500"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <img src={service.img} alt="" className="w-full h-full object-cover reveal-image scale-110 group-hover:scale-100 transition-transform duration-[2s]" />
+        <img 
+          src={imageSrc} 
+          alt={service.title} 
+          onError={() => setImageSrc(FALLBACK_IMAGE)}
+          className="w-full h-full object-cover reveal-image scale-110 group-hover:scale-100 transition-transform duration-[2s]" 
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
       </div>
 
@@ -59,7 +69,8 @@ const Services: React.FC<{ onEnquire: (title: string) => void }> = ({ onEnquire 
       title: t('services.s1_title'),
       desc: t('services.s1_desc'),
       icon: <Castle className="w-7 h-7 md:w-9 md:h-9" strokeWidth={1} />,
-      img: "https://images.unsplash.com/photo-1544135667-e04fdcb479f1?auto=format&fit=crop&q=80&w=800"
+      // Updated with a high-reliability luxury wedding tent image
+      img: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=1200"
     },
     {
       title: t('services.s2_title'),
