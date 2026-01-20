@@ -14,9 +14,15 @@ const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) navigate('/admin');
-    });
+    // Immediate redirect if already a verified admin
+    const checkExisting = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data } = await supabase.from('admin_users').select('is_admin').eq('id', session.user.id).single();
+        if (data?.is_admin) navigate('/admin');
+      }
+    };
+    checkExisting();
   }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,16 +31,25 @@ const AdminLogin: React.FC = () => {
     setError('');
     
     try {
-      const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      // 1. Authenticate with Supabase
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password });
       if (authError) throw authError;
 
-      // Check if user is on the whitelist (redundant but safe)
-      const ADMIN_EMAILS = ['admin@azadtent.com', 'azadtenthouse@gmail.com', 'chandia.azad@gmail.com'];
-      if (!data.user?.email || !ADMIN_EMAILS.includes(data.user.email)) {
+      if (!authData.user) throw new Error("Authentication succeeded but user data is missing.");
+
+      // 2. Verify Admin Status in Database
+      const { data: adminData, error: adminError } = await supabase
+        .from('admin_users')
+        .select('is_admin')
+        .eq('id', authData.user.id)
+        .single();
+
+      if (adminError || !adminData || adminData.is_admin !== true) {
         await supabase.auth.signOut();
-        throw new Error('Access Denied: Not an authorized admin.');
+        throw new Error('ACCESS DENIED: NOT AN AUTHORIZED ADMIN');
       }
 
+      // 3. Success
       navigate('/admin');
     } catch (err: any) {
       setError(err.message || 'Authentication failed');
@@ -44,7 +59,6 @@ const AdminLogin: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#050505] flex items-center justify-center p-6 relative overflow-hidden">
-      {/* Cinematic Background */}
       <div className="absolute inset-0 obsidian-gradient opacity-60" />
       <div className="absolute top-0 right-0 w-1/2 h-full bg-[#C5A059]/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/2 h-full bg-[#C5A059]/5 blur-[120px] pointer-events-none" />
