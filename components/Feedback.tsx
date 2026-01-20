@@ -1,8 +1,9 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Send, Quote, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { getApprovedReviews, submitReview } from '../lib/api';
+import { getAllReviews, submitReview } from '../lib/api';
 
 interface Testimonial {
   name: string;
@@ -72,7 +73,7 @@ const Feedback: React.FC = () => {
 
   const fetchReviews = async () => {
     try {
-      const data = await getApprovedReviews();
+      const data = await getAllReviews();
       if (data && data.length > 0) {
         setTestimonials(data.map(item => ({
           name: item.name,
@@ -105,8 +106,9 @@ const Feedback: React.FC = () => {
         rating: formData.rating
       });
 
-      alert('Thank you! Your review has been submitted and is awaiting approval.');
+      alert('Thank you! Your royal review has been published instantly.');
       setFormData({ name: '', type: 'Wedding', rating: 5, msg: '' });
+      fetchReviews(); // Refresh list immediately
     } catch (err: any) {
       console.error('Submission error:', err?.message || err);
       alert('Could not publish review. Please try again later.');
