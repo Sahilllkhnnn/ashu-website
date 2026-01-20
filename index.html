@@ -3,12 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azad Tent House | Royal Wedding & Event Decorators Chandia Umaria</title>
-    <meta name="description" content="Azad Tent House: The leading luxury wedding tent house and mandap decorator in Chandia, Umaria, MP. Decades of royal event excellence since 1985.">
-    <meta name="keywords" content="wedding tent house Chandia, mandap decoration Umaria, luxury event decor Madhya Pradesh, royal wedding setup, Azad Tent House">
+    <title>Azad Tent House | Luxury Wedding Decorators in Chandia Umaria, MP</title>
+    <meta name="description" content="Azad Tent House: The best luxury wedding tent house and royal mandap decorator in Chandia, Umaria, MP. Premium event planning and cinematic decor since 1985.">
+    <meta name="keywords" content="wedding tent house Chandia, mandap decoration Umaria, luxury event decor Madhya Pradesh, best tent house in Umaria, royal wedding setup, Azad Tent House">
+    <meta name="author" content="Azad Tent House">
+    <link rel="canonical" href="https://azadtent.vercel.app" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://azadtent.vercel.app">
+    <meta property="og:title" content="Azad Tent House | Royal Wedding & Event Decorators">
+    <meta property="og:description" content="Transforming weddings into royal cinematic experiences in Chandia and Umaria since 1985.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://azadtent.vercel.app">
+    <meta property="twitter:title" content="Azad Tent House | Royal Wedding & Event Decorators">
+    <meta property="twitter:description" content="Transforming weddings into royal cinematic experiences in Chandia and Umaria since 1985.">
+    <meta property="twitter:image" content="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200">
+
     <meta name="google-site-verification" content="Xl2u5im_b20CrjP..." />
     
-    <!-- Luxury Favicon: Royal Gold 'A' on Obsidian -->
+    <!-- Structured Data: LocalBusiness & EventService -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Azad Tent House",
+      "image": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?q=80&w=1200",
+      "@id": "https://azadtent.vercel.app",
+      "url": "https://azadtent.vercel.app",
+      "telephone": "+919926543692",
+      "priceRange": "$$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Ward No 4, Near Lal Masjid, Chopra Molalla",
+        "addressLocality": "Chandia",
+        "addressRegion": "MP",
+        "postalCode": "484660",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 23.6548,
+        "longitude": 80.7042
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "10:00",
+        "closes": "21:00"
+      },
+      "sameAs": [
+        "https://instagram.com/azadtenthousechandia"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.6",
+        "reviewCount": "1240"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Wedding & Event Decoration",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Azad Tent House"
+      },
+      "areaServed": {
+        "@type": "Place",
+        "name": "Umaria District"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Wedding Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Luxury Tent House Setup"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Royal Mandap Decoration"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Cinematic Stage Design"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Luxury Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23050505'/%3E%3Cpath d='M50 18L78 82H68L50 40L32 82H22L50 18Z' fill='%23D4AF37'/%3E%3Cpath d='M38 65H62V68H38V65Z' fill='%23D4AF37'/%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -41,24 +149,13 @@
         .glass-panel { background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(25px); border: 1px solid rgba(197, 160, 89, 0.1); }
         .vignette { box-shadow: inset 0 0 25vw rgba(0,0,0,1); }
 
-        /* Custom Luxury Scrollbar - Branded Experience */
-        .custom-luxury-scrollbar::-webkit-scrollbar {
-            width: 3px;
-        }
-        .custom-luxury-scrollbar::-webkit-scrollbar-track {
-            background: rgba(10, 10, 10, 0.5);
-        }
+        .custom-luxury-scrollbar::-webkit-scrollbar { width: 3px; }
+        .custom-luxury-scrollbar::-webkit-scrollbar-track { background: rgba(10, 10, 10, 0.5); }
         .custom-luxury-scrollbar::-webkit-scrollbar-thumb {
             background: linear-gradient(to bottom, transparent, var(--antique-gold), transparent);
             border-radius: 10px;
         }
-        
-        /* Smooth Inertial Scrolling for Gallery */
-        .scrolling-sanctuary {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--antique-gold) transparent;
-        }
+        .scrolling-sanctuary { -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: var(--antique-gold) transparent; }
     </style>
 <script type="importmap">
 {
