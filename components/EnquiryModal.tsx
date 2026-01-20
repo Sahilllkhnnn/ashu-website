@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send } from 'lucide-react';
@@ -37,21 +38,11 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose, initialSer
       });
 
       const whatsappNumber = "+919926543692";
-      const message = `Hello Azad Tent House 👋
-Name: ${formData.name}
-Phone: ${formData.phone}
-Service: ${formData.service}
-Event Date: ${formData.date}
-Location: ${formData.city}
-Message: ${formData.note}`;
-      
-      const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+      const message = `Hello Azad Tent House 👋\nName: ${formData.name}\nPhone: ${formData.phone}\nService: ${formData.service}\nEvent Date: ${formData.date}\nLocation: ${formData.city}\nMessage: ${formData.note}`;
+      window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
       onClose();
     } catch (error) {
       console.error('Error saving enquiry:', error);
-      const whatsappNumber = "+919926543692";
-      window.open(`https://wa.me/${whatsappNumber}?text=Enquiry from website (Backup)`, '_blank');
       onClose();
     } finally {
       setIsSubmitting(false);
@@ -71,74 +62,35 @@ Message: ${formData.note}`;
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 15 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[3rem] border-[#d4af37]/20 shadow-3xl relative"
+        className="glass-panel w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[3rem] border-[#d4af37]/20 shadow-3xl relative bg-[#050505]"
       >
         <button 
           onClick={onClose}
-          className="absolute top-8 right-8 text-white/40 hover:text-[#d4af37] transition-colors z-50 p-3 bg-white/5 rounded-full"
-          aria-label="Close modal"
+          className="absolute top-8 right-8 text-white/40 hover:text-[#d4af37] z-50 p-3 bg-white/5 rounded-full"
         >
-          <X size={24} strokeWidth={1.5} />
+          <X size={24} />
         </button>
 
         <div className="p-10 md:p-20">
-          <span className="text-[#d4af37] font-bold tracking-[0.5em] uppercase text-[10px] md:text-[11px] block mb-6">{t('modal.tag')}</span>
+          <span className="text-[#d4af37] font-bold tracking-[0.5em] uppercase text-[10px] block mb-6">{t('modal.tag')}</span>
           <h2 className="text-4xl md:text-6xl font-serif text-white mb-14 leading-tight">{t('modal.title')} <span className="text-3d-gold italic">{t('modal.subtitle')}</span></h2>
           
           <form onSubmit={handleSubmit} className="space-y-10">
             <div className="grid md:grid-cols-2 gap-10">
               <div className="space-y-3">
                 <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('feedback.label_name')}</label>
-                <input 
-                  required
-                  type="text" 
-                  className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all"
-                  placeholder={t('feedback.placeholder_name')}
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                />
+                <input required type="text" className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:border-[#d4af37]" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} />
               </div>
               <div className="space-y-3">
                 <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('modal.label_phone')}</label>
-                <input 
-                  required
-                  type="tel" 
-                  className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all"
-                  placeholder="+91 XXXX XXXX"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                />
-              </div>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-10">
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('modal.label_date')}</label>
-                <input 
-                  required
-                  type="date" 
-                  className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all [color-scheme:dark]"
-                  value={formData.date}
-                  onChange={(e) => setFormData({...formData, date: e.target.value})}
-                />
-              </div>
-              <div className="space-y-3">
-                <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('modal.label_city')}</label>
-                <input 
-                  required
-                  type="text" 
-                  className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all"
-                  placeholder="Umariya / Chandia"
-                  value={formData.city}
-                  onChange={(e) => setFormData({...formData, city: e.target.value})}
-                />
+                <input required type="tel" className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:border-[#d4af37]" value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} />
               </div>
             </div>
 
             <div className="space-y-3">
               <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('modal.label_service')}</label>
               <select 
-                className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all appearance-none"
+                className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:border-[#d4af37] appearance-none [color-scheme:dark]"
                 value={formData.service}
                 onChange={(e) => setFormData({...formData, service: e.target.value})}
               >
@@ -152,21 +104,15 @@ Message: ${formData.note}`;
 
             <div className="space-y-3">
               <label className="text-[10px] uppercase font-bold tracking-[0.3em] text-white/30 ml-4">{t('contact.tag')}</label>
-              <textarea 
-                rows={4}
-                className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-6 text-white text-sm focus:outline-none focus:border-[#d4af37] transition-all resize-none"
-                placeholder={t('modal.placeholder_vision')}
-                value={formData.note}
-                onChange={(e) => setFormData({...formData, note: e.target.value})}
-              ></textarea>
+              <textarea rows={4} className="w-full bg-[#050505] border border-white/10 rounded-2xl px-8 py-6 text-white text-sm focus:border-[#d4af37] resize-none" value={formData.note} onChange={(e) => setFormData({...formData, note: e.target.value})} />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-6 md:py-7 bg-[#d4af37] text-black font-black uppercase tracking-[0.6em] text-[11px] md:text-[12px] rounded-3xl shadow-3xl transition-all duration-500 hover:bg-white flex items-center justify-center active:scale-[0.98] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className="w-full py-6 bg-[#d4af37] text-black font-black uppercase tracking-[0.6em] text-[11px] rounded-3xl transition-all hover:bg-white"
             >
-              {isSubmitting ? t('modal.tag') : t('modal.cta')} <Send size={16} className="ml-5" />
+              {isSubmitting ? 'Sending...' : t('modal.cta')} <Send size={16} className="ml-5" />
             </button>
           </form>
         </div>

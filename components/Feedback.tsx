@@ -65,12 +65,6 @@ const Feedback: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', type: 'Wedding', rating: 5, msg: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const getDefaults = () => [
-    { name: "Yuvraj Vardhan", role: language === 'en' ? "Wedding Client" : "शादी समारोह ग्राहक", text: language === 'en' ? "Truly a cinematic transformation of our venue. The mandap was the talk of the town." : "वास्तव में हमारे वेन्यू का सिनेमाई कायाकल्प। मंडप पूरे शहर में चर्चा का विषय था।", rating: 5 },
-    { name: "Priya Sharma", role: language === 'en' ? "Corporate Gala" : "कॉर्पोरेट उत्सव", text: language === 'en' ? "Impeccable management and royal lighting. Azad Tent House is Chandia's best." : "बेहतरीन प्रबंधन और शाही लाइटिंग। आज़ाद टेंट हाउस चंदिया का सर्वश्रेष्ठ है।", rating: 5 },
-    { name: "Arjun Singh", role: language === 'en' ? "Elite Party" : "विशिष्ट पार्टी", text: language === 'en' ? "Professional, punctual, and highly creative team. 5 stars for the stage setup." : "पेशेवर, समय की पाबंद और अत्यधिक रचनात्मक टीम। स्टेज सेटअप के लिए 5 सितारे।", rating: 5 },
-  ];
-
   const fetchReviews = async () => {
     try {
       const data = await getAllReviews();
@@ -81,12 +75,9 @@ const Feedback: React.FC = () => {
           text: item.message,
           rating: item.rating
         })));
-      } else {
-        setTestimonials(getDefaults());
       }
     } catch (err: any) {
       console.warn('Review fetch failed:', err?.message);
-      setTestimonials(getDefaults());
     }
   };
 
@@ -106,12 +97,12 @@ const Feedback: React.FC = () => {
         rating: formData.rating
       });
 
-      alert('Thank you! Your royal review has been published instantly.');
+      alert('Thank you! Your royal review has been published.');
       setFormData({ name: '', type: 'Wedding', rating: 5, msg: '' });
-      fetchReviews(); // Refresh list immediately
+      fetchReviews();
     } catch (err: any) {
       console.error('Submission error:', err?.message || err);
-      alert('Could not publish review. Please try again later.');
+      alert('Review submission failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

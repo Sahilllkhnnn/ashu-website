@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Trash2, Eye, EyeOff, Upload, X } from 'lucide-react';
@@ -46,7 +47,7 @@ const PortfolioManager: React.FC = () => {
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.image) return alert('Please select an image');
+    if (!formData.image) return alert('Please select an image for this royal showcase.');
     
     setUploading(true);
     try {
@@ -61,7 +62,7 @@ const PortfolioManager: React.FC = () => {
       setFormData({ title: '', category: 'Weddings', description: '', image: null, imagePreview: '' });
       fetchItems();
     } catch (err: any) {
-      alert(err.message);
+      alert(`Upload failed: ${err.message || 'Check RLS policies and storage bucket settings.'}`);
     } finally {
       setUploading(false);
     }
@@ -125,20 +126,18 @@ const PortfolioManager: React.FC = () => {
               <div className="p-6">
                 <span className="text-[#C5A059] text-[8px] font-black uppercase tracking-[0.3em] mb-2 block">{item.category}</span>
                 <h4 className="text-white font-serif text-xl tracking-wide">{item.title}</h4>
-                {!item.is_active && <p className="text-red-400/40 text-[9px] font-bold uppercase mt-2">Currently Hidden</p>}
               </div>
             </div>
           ))}
         </div>
       )}
 
-      {/* Add Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/90 backdrop-blur-3xl">
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="glass-panel w-full max-w-2xl rounded-[3rem] p-10 md:p-14 relative border-[#C5A059]/20"
+            className="glass-panel w-full max-w-2xl rounded-[3rem] p-10 md:p-14 relative border-[#C5A059]/20 bg-[#0a0a0b]"
           >
             <button onClick={() => setIsModalOpen(false)} className="absolute top-8 right-8 text-white/20 hover:text-white"><X /></button>
             <h3 className="text-3xl font-serif text-white mb-8">New Gallery Item</h3>
@@ -151,11 +150,17 @@ const PortfolioManager: React.FC = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="text-[9px] uppercase font-bold tracking-[0.2em] text-white/30 ml-2">Category</label>
-                  <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} className="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#C5A059]/50 appearance-none">
-                    <option value="Weddings">Weddings</option>
-                    <option value="Corporate">Corporate</option>
-                    <option value="Parties">Parties</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      value={formData.category} 
+                      onChange={e => setFormData({...formData, category: e.target.value})} 
+                      className="w-full bg-[#0a0a0b] border border-white/10 rounded-2xl px-6 py-4 text-white text-sm focus:outline-none focus:border-[#C5A059]/50 appearance-none [color-scheme:dark]"
+                    >
+                      <option className="bg-[#0a0a0b] text-white" value="Weddings">Weddings</option>
+                      <option className="bg-[#0a0a0b] text-white" value="Corporate">Corporate</option>
+                      <option className="bg-[#0a0a0b] text-white" value="Parties">Parties</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
