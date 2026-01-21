@@ -124,7 +124,7 @@ const Feedback: React.FC = () => {
               <h2 className="text-5xl md:text-7xl font-serif text-white font-light leading-tight">{t('feedback.title_elite')} <span className="italic text-3d-gold">{t('feedback.title_appreciation')}</span></h2>
             </motion.div>
             
-            <div className="max-h-[580px] overflow-y-auto pr-6 space-y-8 custom-scrollbar">
+            <div className="max-h-[580px] overflow-y-auto pr-6 space-y-8 custom-luxury-scrollbar scrolling-sanctuary luxury-review-feed">
               {testimonials.map((t_item, i) => (
                 <motion.div 
                   key={`${t_item.name}-${i}`}
@@ -211,6 +211,25 @@ const Feedback: React.FC = () => {
 
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .luxury-review-feed {
+          scroll-behavior: smooth;
+          -webkit-overflow-scrolling: touch;
+          overscroll-behavior: contain;
+          background: transparent !important;
+        }
+        .luxury-review-feed::-webkit-scrollbar {
+          width: 2px;
+        }
+        .luxury-review-feed::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.2);
+          border-radius: 10px;
+        }
+        .luxury-review-feed::-webkit-scrollbar-thumb {
+          background: linear-gradient(to bottom, transparent, #C5A059, transparent);
+          border-radius: 10px;
+        }
+      `}} />
     </section>
   );
 };
