@@ -79,36 +79,11 @@ export const deleteReview = async (id: string) => {
 };
 
 /**
- * ENQUIRIES API - LEAD MANAGEMENT
+ * ENQUIRIES API - REDUNDANT (MIGRATED TO DIRECT WHATSAPP)
  */
-// Fix: Added getEnquiries and deleteEnquiry to resolve import errors in EnquiriesManager.tsx
-export const getEnquiries = async () => {
-  const { data, error } = await supabase
-    .from('enquiries')
-    .select('*')
-    .order('created_at', { ascending: false });
-  if (error) throw error;
-  return data;
-};
-
-export const deleteEnquiry = async (id: string) => {
-  const { error } = await supabase.from('enquiries').delete().eq('id', id);
-  if (error) throw error;
-};
-
-// Added submitEnquiry to allow saving contact/modal form leads to the database
-export const submitEnquiry = async (enquiry: {
-  name: string;
-  phone: string;
-  event_date: string;
-  city: string;
-  service?: string;
-  message: string;
-}) => {
-  const { data, error } = await supabase.from('enquiries').insert([enquiry]).select();
-  if (error) throw error;
-  return data;
-};
+export const getEnquiries = async () => [];
+export const deleteEnquiry = async (id: string) => {};
+export const submitEnquiry = async (enquiry: any) => ({ data: [] });
 
 /**
  * STORAGE API

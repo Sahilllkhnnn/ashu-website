@@ -1,53 +1,37 @@
+
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Instagram, Send, MessageCircle, Clock } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { submitEnquiry } from '../lib/api';
 
 const Contact: React.FC = () => {
   const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', phone: '', date: '', city: '', msg: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleEnquiry = async (e: React.FormEvent) => {
+  const handleEnquiry = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      // Persist lead details to Supabase for admin management
-      await submitEnquiry({
-        name: formData.name,
-        phone: formData.phone,
-        event_date: formData.date,
-        city: formData.city,
-        message: formData.msg || 'Interested in royal event services.'
-      });
-
-      const whatsappNumber = "919926543692";
-      const message = `Hello Azad Tent House 👑
+    const whatsappNumber = "919926543692";
+    const message = `Hello Azad Tent House,
 
 Name: ${formData.name}
-WhatsApp: ${formData.phone}
+Mobile: ${formData.phone}
 Event Date: ${formData.date}
-Location: ${formData.city}
+City: ${formData.city}
+Service: General Event Enquiry
+Message: ${formData.msg || 'Interested in royal event services.'}
 
-Requirement:
-${formData.msg || 'Interested in royal event services.'}
+Please contact me regarding this enquiry.`;
 
-Please contact me.`;
-
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-      
-      // Redirect using window.location.href to bypass popup blockers on mobile/desktop
-      window.location.href = whatsappUrl;
-      
-      setFormData({ name: '', phone: '', date: '', city: '', msg: '' });
-    } catch (err: any) {
-      console.error('Enquiry submission failed:', err.message);
-      alert('Something went wrong. Please try again or contact us directly via phone.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    // Immediate redirect to ensure responsiveness and bypass potential pop-up blockers
+    window.location.href = whatsappUrl;
+    
+    setFormData({ name: '', phone: '', date: '', city: '', msg: '' });
+    setTimeout(() => setIsSubmitting(false), 2000);
   };
 
   const riseVariants = {
@@ -114,8 +98,8 @@ Please contact me.`;
               </div>
 
               <div className="mt-16 md:mt-24 pt-10 border-t border-white/5 flex gap-8">
-                <a href="https://instagram.com/azadtenthousechandia" target="_blank" className="text-white/20 hover:text-[#d4af37] transition-all duration-700" aria-label="Instagram"><Instagram size={22} strokeWidth={1.2} /></a>
-                <a href="https://wa.me/919926543692" target="_blank" className="text-white/20 hover:text-[#d4af37] transition-all duration-700" aria-label="WhatsApp"><MessageCircle size={22} strokeWidth={1.2} /></a>
+                <a href="https://instagram.com/azadtenthousechandia" target="_blank" className="text-white/20 hover:text-[#d4af37] transition-all duration-500" aria-label="Instagram"><Instagram size={22} strokeWidth={1.2} /></a>
+                <a href="https://wa.me/919926543692" target="_blank" className="text-white/20 hover:text-[#d4af37] transition-all duration-500" aria-label="WhatsApp"><MessageCircle size={22} strokeWidth={1.2} /></a>
               </div>
             </motion.div>
           </div>
@@ -151,7 +135,7 @@ Please contact me.`;
                 disabled={isSubmitting}
                 className={`group w-full py-5 bg-[#d4af37] text-black font-black uppercase tracking-[0.5em] text-[10px] md:text-[11px] rounded-2xl shadow-3xl transition-all duration-700 flex items-center justify-center min-h-[55px] hover:bg-white active:scale-[0.98] ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {isSubmitting ? 'Redirecting to WhatsApp...' : t('contact.cta')} <Send size={15} className={`ml-5 transition-transform duration-500 ${isSubmitting ? 'translate-x-12 opacity-0' : 'group-hover:translate-x-1'}`} />
+                {isSubmitting ? 'Opening WhatsApp...' : t('contact.cta')} <Send size={15} className={`ml-5 transition-transform duration-500 ${isSubmitting ? 'translate-x-12 opacity-0' : 'group-hover:translate-x-1'}`} />
               </button>
             </motion.form>
           </div>
