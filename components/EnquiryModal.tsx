@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send, MessageCircle } from 'lucide-react';
@@ -116,12 +115,16 @@ Please contact me regarding this enquiry.`;
             <div className="space-y-3">
               <label className="text-[9px] uppercase font-bold tracking-[0.3em] text-white/20 ml-4">{t('modal.label_service')}</label>
               <div className="relative group">
-                <select className="w-full bg-white/[0.02] border border-white/5 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37]/40 focus:bg-white/[0.04] transition-all duration-500 appearance-none [color-scheme:dark]" value={formData.service} onChange={(e) => setFormData({...formData, service: e.target.value})}>
-                  <option value="Grand Tents & Mandaps">{t('services.s1_title')}</option>
-                  <option value="Royal Stage Design">{t('services.s2_title')}</option>
-                  <option value="Floral Installations">{t('services.s3_title')}</option>
-                  <option value="Wedding Lighting">{t('services.s4_title')}</option>
-                  <option value="Complete Production">{t('services.s6_title')}</option>
+                <select 
+                  className="w-full bg-[#0a0a0b] border border-white/10 rounded-2xl px-8 py-5 text-white text-sm focus:outline-none focus:border-[#d4af37]/40 transition-all duration-500 appearance-none [color-scheme:dark]"
+                  value={formData.service} 
+                  onChange={(e) => setFormData({...formData, service: e.target.value})}
+                >
+                  <option className="bg-[#0a0a0b] text-white" value="Grand Tents & Mandaps">{t('services.s1_title')}</option>
+                  <option className="bg-[#0a0a0b] text-white" value="Royal Stage Design">{t('services.s2_title')}</option>
+                  <option className="bg-[#0a0a0b] text-white" value="Floral Installations">{t('services.s3_title')}</option>
+                  <option className="bg-[#0a0a0b] text-white" value="Wedding Lighting">{t('services.s4_title')}</option>
+                  <option className="bg-[#0a0a0b] text-white" value="Complete Production">{t('services.s6_title')}</option>
                 </select>
                 <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-white/20 group-hover:text-[#d4af37] transition-colors">
                   <MessageCircle size={16} />
