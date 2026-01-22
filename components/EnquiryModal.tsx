@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Send, MessageCircle } from 'lucide-react';
@@ -35,7 +34,6 @@ const EnquiryModal: React.FC<EnquiryModalProps> = ({ isOpen, onClose, initialSer
     };
   }, [isOpen]);
 
-  // Fix: Added submitEnquiry call to persist leads in the database before WhatsApp redirect
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -67,16 +65,15 @@ Please contact me.`;
 
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
       
-      // Smooth delay for luxury feel
-      setTimeout(() => {
-        window.open(whatsappUrl, '_blank');
-        setIsSubmitting(false);
-        onClose();
-      }, 800);
+      // Redirect using window.location.href to avoid being blocked as a popup
+      window.location.href = whatsappUrl;
+      
+      onClose();
     } catch (err: any) {
       console.error('Enquiry submission failed:', err.message);
-      setIsSubmitting(false);
       alert('Something went wrong. Please try again or contact us directly via WhatsApp.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
